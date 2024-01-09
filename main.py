@@ -14,16 +14,25 @@ class SugarCell:
      self.sugar = 0
 
 class SugarSurface:
- def __init__(self, rows, cols):
+  def __init__(self, rows, cols):
    self.rows = rows
    self.cols = cols
-   self.cells = [[SugarCell(random.randint(1, 10)) for _ in range(cols)] for _ in range(rows)]
-
- def get_cell(self, row, col):
+   self.cells = [
+     [SugarCell(random.randint(1, 10)) for _ in range(cols)] 
+        for _ in range(rows)]
+  
+  def get_cell(self, row, col):
    if 0 <= row < self.rows and 0 <= col < self.cols:
      return self.cells[row][col]
    else:
      return None
+  
+  def report_sugar(self):
+    # report Sugar Surface
+    for r in range(R):
+      for c in range(C):
+        #print( "(" + str(r) + "," + str(c) + "): " + str(b.get_cell(r,c).sugar))
+        print(f"({str(r)},{str(c)}): {str(b.get_cell(r,c).sugar)}")   
 
 class Miner:
  def __init__(self, surface, row, col):
@@ -61,21 +70,25 @@ class Miner:
    if cell:
      cell.take_sugar(1)
 
+class ScenarioOne:
+ def __init__(self, surface):
+   players = []
+   # populate players' positions
+   startpoints = [
+     (6,4), (7,4), (8,4), (3,6), (10,7), (11,11), (16,11), (1,11), 
+     (5,11), (9,11), (5,13), (7,13), (2,14), (12,14), (13,14), (14,14), (15,14)]
+
+   for i in range(len(startpoints)):
+     players.append(Miner(b, startpoints[i][0], startpoints[i][1]))
+
+#main()
+
 b = SugarSurface(R,C)
 #m = Miner(b, 8, 8)
 
-players = []
 
-for r in range(R):
-  for c in range(C):
-    #print( "(" + str(r) + "," + str(c) + "): " + str(b.get_cell(r,c).sugar))
-    print(f"({str(r)},{str(c)}): {str(b.get_cell(r,c).sugar)}")
 
-startpoints = [(6,4), (7,4), (8,4), (3,6), (10,7), (11,11), (16,11), (1,11), 
-  (5,11), (9,11), (5,13), (7,13), (2,14), (12,14), (13,14), (14,14), (15,14)]
 
-for i in range(len(startpoints)):
-  players.append(Miner(b, startpoints[i][0], startpoints[i][1]))
 
   
 
