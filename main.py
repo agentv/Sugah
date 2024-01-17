@@ -24,21 +24,23 @@ class SugarSurface:
    else:
      return None
   
-  def report_sugar(self):
+  def report_sugar(self): # not a standard accessor method - it's administrative
     # report Sugar Surface
     for r in range(self.rows):
       for c in range(self.cols):
         #print( "(" + str(r) + "," + str(c) + "): " + str(b.get_cell(r,c).sugar))
-        print(f"({str(r)},{str(c)}): {str(self.get_cell(r,c).sugar)}")   
+        print(f"({str(r)},{str(c)}): {str(self.get_cell(r,c).sugar)}")
 
 class Miner:
  def __init__(self, surface, row, col):
    self.surface = surface
    self.row = row
    self.col = col
-
+   self.sugar = 0
+   self.health = 1 # health is a measure of how much sugar we have left, reach 0 and we die
+   
  def getLocation(self):
-    return (self.row, self.col)
+    return (self.row, self.col) # up, down, left, right, up_left, and the rest...
 
  def move(self, direction):
    if direction == "up":
@@ -76,22 +78,22 @@ class ScenarioOne:
     self.surface = SugarSurface(R, C)
      
     # populate players' positions
-    players = []
+    self.players = []
     startpoints = [
      (6,4), (7,4), (8,4), (3,6), (10,7), (11,11), (16,11), (1,11), 
      (5,11), (9,11), (5,13), (7,13), (2,14), (12,14), (13,14), (14,14), (15,14)]
     
     for i in range(len(startpoints)):
-     players.append(Miner(self.surface, startpoints[i][0], startpoints[i][1]))
-  
+     self.players.append(Miner(self.surface, startpoints[i][0], startpoints[i][1]))
+
+  def showMiners(self):
+    for m in range(len(self.players)):
+      print(f"Miner {m+1} at {self.players[m].getLocation()}")
+    
 #main()
 
 s = ScenarioOne()
 s.surface.report_sugar()
+#s.showMiners()
 
-
-
-
-
-  
 
