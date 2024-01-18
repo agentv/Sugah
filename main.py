@@ -40,9 +40,9 @@ class Miner:
    self.health = 1 # health is a measure of how much sugar we have left, reach 0 and we die
    
  def getLocation(self):
-    return (self.row, self.col) # up, down, left, right, up_left, and the rest...
+    return (self.row, self.col) 
 
- def move(self, direction):
+ def move(self, direction): # up, down, left, right, up_left, and the rest...
    if direction == "up":
      self.row -= 1
    elif direction == "down":
@@ -68,6 +68,36 @@ class Miner:
    cell = self.surface.get_cell(self.row, self.col)
    if cell:
      cell.take_sugar(1)
+       
+ def scan(self,sugarSurface):
+   result = {}
+   # N
+   # get sugar allotment from self.row -1, self.col
+   result["N"] = sugarSurface.get_cell(self.row - 1, self.col).sugar
+   # S
+   # get sugar from self.row+1, self.col
+   result["S"] = sugarSurface.get_cell(self.row + 1, self.col).sugar
+   # W
+   # get sugar from self.row, self.col-1
+   result["W"] = sugarSurface.get_cell(self.row, self.col - 1).sugar
+   # E
+   # get sugar from self.row, self.col+1
+   result["E"] = sugarSurface.get_cell(self.row, self.col + 1).sugar
+   # NE
+   # get sugar from self.row-1, self.col+1
+   result["NE"] = sugarSurface.get_cell(self.row - 1, self.col + 1).sugar
+   # NW
+   # get sugar from self.row-1, self.col-1
+   result["NW"] = sugarSurface.get_cell(self.row - 1, self.col - 1).sugar
+   # SE
+   # get sugar from self.row+1, self.col+1
+   result["SE"] = sugarSurface.get_cell(self.row + 1, self.col + 1).sugar
+   # SW
+   # get sugar from self.row+1, self.col-1
+   result["SW"] = sugarSurface.get_cell(self.row + 1, self.col - 1).sugar
+   
+   return result
+ 
 
 class ScenarioOne:
   def __init__(self):
@@ -93,7 +123,11 @@ class ScenarioOne:
 #main()
 
 s = ScenarioOne()
-s.surface.report_sugar()
+#s.surface.report_sugar()
 #s.showMiners()
+
+print (s.players[0].scan(s.surface))
+
+
 
 
