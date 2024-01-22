@@ -11,11 +11,11 @@ class SugarCell:
      self.sugar = 0
 
 class SugarSurface:
-  def __init__(self, rows, cols):
+  def __init__(self, rows, cols, limit):
    self.rows = rows
    self.cols = cols
    self.cells = [
-     [SugarCell(random.randint(1, 10)) for _ in range(cols)] 
+     [SugarCell(random.randint(1, limit)) for _ in range(cols)]
         for _ in range(rows)]
   
   def get_cell(self, row, col):
@@ -98,19 +98,22 @@ class Miner:
    
    return result
  
-
 class ScenarioOne:
   def __init__(self):
 
-    # populate surface
+    # define constants for Game 0
     R = 16
     C = 16
-    self.surface = SugarSurface(R, C)
+    sugarLimit = 100
+    movePrompt = 30 # if a neighbour has more than this amount of sugar more the current cell, we move towards it
+    
+    # populate surface
+    self.surface = SugarSurface(R, C, sugarLimit)
      
     # populate players' positions
     self.players = []
     startpoints = [
-     (6,4), (7,4), (8,4), (3,6), (10,7), (11,11), (16,11), (1,11), 
+     (6,4), (7,4), (8,4), (3,6), (10,7), (11,11), (15,11), (1,11), 
      (5,11), (9,11), (5,13), (7,13), (2,14), (12,14), (13,14), (14,14), (15,14)]
     
     for i in range(len(startpoints)):
@@ -118,15 +121,15 @@ class ScenarioOne:
 
   def showMiners(self):
     for m in range(len(self.players)):
-      print(f"Miner {m+1} at {self.players[m].getLocation()}")
+      print(f"Miner {m+1} at {self.players[m].getLocation()} - Sugar: {self.surface.get_cell(self.players[m].row, self.players[m].col).sugar}")
     
 #main()
 
 s = ScenarioOne()
 #s.surface.report_sugar()
-#s.showMiners()
+s.showMiners()
 
-print (s.players[0].scan(s.surface))
+#print (s.players[0].scan(s.surface))
 
 
 
