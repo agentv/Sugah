@@ -14,6 +14,12 @@ class SugarSurface:
   def __init__(self, rows, cols, limit):
    self.rows = rows
    self.cols = cols
+
+    # we populate the cells here by simply giving a random number
+    # from 1 to limit
+    # the real plan is to use the same distribution of value
+    # used in Scrabble
+    # ie. 1:49, 2:15, 3:11, 4:13, 5:1
    self.cells = [
      [SugarCell(random.randint(1, limit)) for _ in range(cols)]
         for _ in range(rows)]
@@ -105,7 +111,7 @@ class ScenarioOne:
     R = 16
     C = 16
     sugarLimit = 100
-    movePrompt = 30 # if a neighbour has more than this amount of sugar more the current cell, we move towards it
+    movePrompt = 30 # if a neighbour has more than this amount of sugar more the current cell, we move there
     
     # populate surface
     self.surface = SugarSurface(R, C, sugarLimit)
@@ -122,7 +128,8 @@ class ScenarioOne:
   def showMiners(self):
     for m in range(len(self.players)):
       print(f"Miner {m+1} at {self.players[m].getLocation()} - Sugar: {self.surface.get_cell(self.players[m].row, self.players[m].col).sugar}")
-    
+
+##############################################################
 #main()
 
 s = ScenarioOne()
@@ -131,6 +138,29 @@ s.showMiners()
 
 #print (s.players[0].scan(s.surface))
 
+##############################################################
+# experiment to determine the point value for a given outcome using this distribution
+# Define the point probabilities
+point_probabilities = {
+    1: 49 / 89,
+    2: 15 / 89,
+    3: 11 / 89,
+    4: 13 / 89,
+    5: 1 / 89,
+}
 
+# Generate a random number between 1 and 89
+random_number = random.randint(1, 89)
 
+# Find the matching entry in point_probabilities
+matching_point = None
+for point, probability in point_probabilities.items():
+    if random_number <= probability * 89:
+        matching_point = point
+        break
+
+# Print the result
+#print(f"Random number: {random_number}, Matching point value: {matching_point}")
+
+print (point_probabilities[5])
 
