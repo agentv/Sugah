@@ -111,7 +111,7 @@ class ScenarioOne:
     R = 16
     C = 16
     sugarLimit = 100
-    movePrompt = 30 # if a neighbour has more than this amount of sugar more the current cell, we move there
+    movePrompt = 30 # if a neighbour has more than this amount of sugar more than the current cell, move there
     
     # populate surface
     self.surface = SugarSurface(R, C, sugarLimit)
@@ -140,27 +140,16 @@ s.showMiners()
 
 ##############################################################
 # experiment to determine the point value for a given outcome using this distribution
-# Define the point probabilities
-point_probabilities = {
-    1: 49 / 89,
-    2: 15 / 89,
-    3: 11 / 89,
-    4: 13 / 89,
-    5: 1 / 89,
-}
+# next, move this to the constructor for SugarSurface
 
-# Generate a random number between 1 and 89
-random_number = random.randint(1, 89)
+import random
 
-# Find the matching entry in point_probabilities
-matching_point = None
-for point, probability in point_probabilities.items():
-    if random_number <= probability * 89:
-        matching_point = point
-        break
+# Create the array with the desired distribution
+point_array = [1] * 49 + [2] * 15 + [3] * 11 + [4] * 13 + [5] * 1
 
-# Print the result
-#print(f"Random number: {random_number}, Matching point value: {matching_point}")
+# Randomly select an entry
+random_index = random.randint(1, len(point_array))
+selected_number = point_array[random_index]
 
-print (point_probabilities[5])
-
+# Print the selected number
+print("Selected number:", selected_number)
