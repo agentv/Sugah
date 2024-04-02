@@ -111,7 +111,7 @@ class ScenarioOne:
     R = 16
     C = 16
     sugarLimit = 100
-    movePrompt = 30 # if a neighbour has more than this amount of sugar more than the current cell, move there
+    movePrompt = 30 # if a neighbor has more than this amount of sugar more than the current cell, move there
     
     # populate surface
     self.surface = SugarSurface(R, C, sugarLimit)
@@ -120,36 +120,26 @@ class ScenarioOne:
     self.players = []
     startpoints = [
      (6,4), (7,4), (8,4), (3,6), (10,7), (11,11), (15,11), (1,11), 
-     (5,11), (9,11), (5,13), (7,13), (2,14), (12,14), (13,14), (14,14), (15,14)]
+     (5,11), (9,11), (5,13), (7,13), (2,14), (12,14), (13,14), (14,14), (15,14)
+    ]
     
     for i in range(len(startpoints)):
      self.players.append(Miner(self.surface, startpoints[i][0], startpoints[i][1]))
 
+  # dump Miners info
   def showMiners(self):
     for m in range(len(self.players)):
       print(f"Miner {m+1} at {self.players[m].getLocation()} - Sugar: {self.surface.get_cell(self.players[m].row, self.players[m].col).sugar}")
 
+
+  
 ##############################################################
 #main()
 
 s = ScenarioOne()
 #s.surface.report_sugar()
-s.showMiners()
+#s.showMiners()
+# print (s.players[0].scan(s.surface))
 
-#print (s.players[0].scan(s.surface))
+# distrotable()
 
-##############################################################
-# experiment to determine the point value for a given outcome using this distribution
-# next, move this to the constructor for SugarSurface
-
-import random
-
-# Create the array with the desired distribution
-point_array = [1] * 49 + [2] * 15 + [3] * 11 + [4] * 13 + [5] * 1
-
-# Randomly select an entry
-random_index = random.randint(1, len(point_array))
-selected_number = point_array[random_index]
-
-# Print the selected number
-print("Selected number:", selected_number)
