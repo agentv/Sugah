@@ -131,7 +131,17 @@ class ScenarioOne:
     for m in range(len(self.players)):
       print(f"Miner {m+1} at {self.players[m].getLocation()} - Sugar: {self.surface.get_cell(self.players[m].row, self.players[m].col).sugar}")
 
-
+  def pulse(self):
+    # for each miner, mine or move
+    for m in range(len(self.players)):
+      # scan neighborhood
+      neighborhood = self.players[m].scan(self.surface)
+      # find the neighbor with the most sugar
+      max_neighbor = max(neighborhood, key=neighborhood.get)
+      # if the neighbor has more sugar than the current cell, move there
+      if neighborhood[max_neighbor] > self.surface.get_cell(self.players[m].row, self.players[m].col)
+        # move to the richer neighbor
+        self.players[m].move(max_neighbor)
   
 ##############################################################
 #main()
