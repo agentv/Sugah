@@ -1,10 +1,14 @@
 ##############################################################
 # experiment to create a "booster table" with a known distribution
+# the idea is to add sugar to cells using a formula that favors smaller number
+# but allows for higher values to occasionally occur
+
 # next, move this to the constructor for SugarSurface
+
 
 def distrotable():
   # Create an array with the desired distribution
-  point_array = [1] * 49 + [2] * 15 + [3] * 11 + [4] * 13 + [5] * 1
+  point_array = [1] * 20 + [2] * 25 + [3] * 21 + [4] * 16 + [5] * 7
 
   # Dump the table
   for m in range(len(point_array)):

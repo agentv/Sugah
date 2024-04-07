@@ -1,5 +1,12 @@
 import random
+import sandbox.randoms as rand # used for the "booster table"
 
+# TODO
+#
+# complete the visualization of the sugar surface - print and color code the cells
+# Add the initial positions of the Miners
+# Create a pulse() routine for each Miner - this will be in the main loop
+# create a pulse() routine for the surface - this happens after the main loop
 
 class SugarCell:
 
@@ -12,6 +19,8 @@ class SugarCell:
     if self.sugar < 0:
       self.sugar = 0
 
+  def add_sugar(self, amount):
+    self.sugar += amount
 
 class SugarSurface:
 
@@ -32,15 +41,22 @@ class SugarSurface:
       return self.cells[row][col]
     else:
       return None
-
-  def report_sugar(
-      self):  # not a standard accessor method - it's administrative
+  def export_sugar(self):
+    # export a json structure that can be used to recreate the
+    # surface. Each element should be in a JSON object that contains
+    # the row, col, and sugar value
+    result = []
+    for r in range(self.rows):
+      for c in range(self.cols): 
+        result.append({"row": r, "col": c, "sugar": self.cells[r][c].sugar})
+    return result
+        
+  def report_sugar(self):  # not a standard accessor method - it's administrative
     # report Sugar Surface
     for r in range(self.rows):
       for c in range(self.cols):
         #print( "(" + str(r) + "," + str(c) + "): " + str(b.get_cell(r,c).sugar))
         print(f"({str(r)},{str(c)}): {str(self.get_cell(r,c).sugar)}")
-
 
 class Miner:
 
@@ -110,7 +126,6 @@ class Miner:
 
     return result
 
-
 class ScenarioOne:
 
   def __init__(self):
@@ -118,7 +133,7 @@ class ScenarioOne:
     # define constants for Game 0
     R = 16
     C = 16
-    sugarLimit = 30
+    sugarLimit = 16
     movePrompt = 4  # if a neighbor has more than this amount of sugar more than the current cell, move there
 
     # populate surface
@@ -152,15 +167,14 @@ class ScenarioOne:
       if neighborhood[max_neighbor] > self.surface.get_cell(
           self.players[m].row, self.players[m].col):
         # move to the richer neighbor - use cardinal directions (ie: up, down, left ...)
-        self.players[m].move(max_neighbor)  
-
+        self.players[m].move(max_neighbor)
 
 ##############################################################
 #main()
 
 s = ScenarioOne()
-#s.surface.report_sugar()
-s.showMiners()
+# print (s.surface.export_sugar())
+# s.showMiners()
 # print (s.players[0].scan(s.surface))
 
-# distrotable()
+# rand.distrotable()
