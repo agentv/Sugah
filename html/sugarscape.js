@@ -11,7 +11,7 @@ d3.json("data/onesurface.json")
   .then (data => {
     // Create grid cells
     svg.selectAll("rect")
-       .data(surface)
+       .data(data) 
        .enter()
        .append("rect")
        .attr("x", d => d.x * cellSize)
