@@ -8,7 +8,7 @@
 
 def distrotable():
   # Create an array with the desired distribution
-  point_array = [1] * 20 + [2] * 25 + [3] * 21 + [4] * 16 + [5] * 7
+  point_array = [1] * 18 + [2] * 25 + [3] * 21 + [4] * 18 + [5] * 7
 
   # Dump the table
   for m in range(len(point_array)):

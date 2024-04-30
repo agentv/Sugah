@@ -1,5 +1,5 @@
 import random
-import sandbox.randoms as rand # used for the "booster table"
+import sandbox.randoms as rand  # used for the "booster table"
 
 # TODO
 #
@@ -7,6 +7,7 @@ import sandbox.randoms as rand # used for the "booster table"
 # Add the initial positions of the Miners
 # Create a pulse() routine for each Miner - this will be in the main loop
 # create a pulse() routine for the surface - this happens after the main loop
+
 
 class SugarCell:
 
@@ -21,6 +22,7 @@ class SugarCell:
 
   def add_sugar(self, amount):
     self.sugar += amount
+
 
 class SugarSurface:
 
@@ -41,22 +43,25 @@ class SugarSurface:
       return self.cells[row][col]
     else:
       return None
+
   def export_sugar(self):
     # export a json structure that can be used to recreate the
     # surface. Each element should be in a JSON object that contains
     # the row, col, and sugar value
     result = []
     for r in range(self.rows):
-      for c in range(self.cols): 
+      for c in range(self.cols):
         result.append({"row": r, "col": c, "sugar": self.cells[r][c].sugar})
     return result
-        
-  def report_sugar(self):  # not a standard accessor method - it's administrative
+
+  def report_sugar(
+      self):  # not a standard accessor method - it's administrative
     # report Sugar Surface
     for r in range(self.rows):
       for c in range(self.cols):
         #print( "(" + str(r) + "," + str(c) + "): " + str(b.get_cell(r,c).sugar))
         print(f"({str(r)},{str(c)}): {str(self.get_cell(r,c).sugar)}")
+
 
 class Miner:
 
@@ -99,32 +104,28 @@ class Miner:
 
   def scan(self, sugarSurface):
     result = {}
-    # N
     # get sugar allotment from self.row -1, self.col
-    result["N"] = sugarSurface.get_cell(self.row - 1, self.col).sugar
-    # S
+    result["up"] = sugarSurface.get_cell(self.row - 1, self.col).sugar
     # get sugar from self.row+1, self.col
-    result["S"] = sugarSurface.get_cell(self.row + 1, self.col).sugar
-    # W
+    result["down"] = sugarSurface.get_cell(self.row + 1, self.col).sugar
     # get sugar from self.row, self.col-1
-    result["W"] = sugarSurface.get_cell(self.row, self.col - 1).sugar
-    # E
+    result["left"] = sugarSurface.get_cell(self.row, self.col - 1).sugar
     # get sugar from self.row, self.col+1
-    result["E"] = sugarSurface.get_cell(self.row, self.col + 1).sugar
-    # NE
+    result["right"] = sugarSurface.get_cell(self.row, self.col + 1).sugar
     # get sugar from self.row-1, self.col+1
-    result["NE"] = sugarSurface.get_cell(self.row - 1, self.col + 1).sugar
-    # NW
+    result["up_right"] = sugarSurface.get_cell(self.row - 1,
+                                               self.col + 1).sugar
     # get sugar from self.row-1, self.col-1
-    result["NW"] = sugarSurface.get_cell(self.row - 1, self.col - 1).sugar
-    # SE
+    result["up_left"] = sugarSurface.get_cell(self.row - 1, self.col - 1).sugar
     # get sugar from self.row+1, self.col+1
-    result["SE"] = sugarSurface.get_cell(self.row + 1, self.col + 1).sugar
-    # SW
+    result["down_right"] = sugarSurface.get_cell(self.row + 1,
+                                                 self.col + 1).sugar
     # get sugar from self.row+1, self.col-1
-    result["SW"] = sugarSurface.get_cell(self.row + 1, self.col - 1).sugar
+    result["down_left"] = sugarSurface.get_cell(self.row + 1,
+                                                self.col - 1).sugar
 
     return result
+
 
 class ScenarioOne:
 
@@ -156,6 +157,7 @@ class ScenarioOne:
           f"Miner {m+1} at {self.players[m].getLocation()} - Sugar: {self.surface.get_cell(self.players[m].row, self.players[m].col).sugar}"
       )
 
+  # untested and dysfunctional
   def pulse(self):
     # for each miner, mine or move
     for m in range(len(self.players)):
@@ -164,10 +166,11 @@ class ScenarioOne:
       # find the neighbor with the most sugar
       max_neighbor = max(neighborhood, key=neighborhood.get)
       # if the neighbor has more sugar than the current cell, move there
-      if neighborhood[max_neighbor] > self.surface.get_cell(
+      if neighborhood[max_neighbor] > (self.surface.get_cell + movePrompt)(
           self.players[m].row, self.players[m].col):
         # move to the richer neighbor - use cardinal directions (ie: up, down, left ...)
         self.players[m].move(max_neighbor)
+
 
 ##############################################################
 #main()
@@ -175,6 +178,6 @@ class ScenarioOne:
 s = ScenarioOne()
 # print (s.surface.export_sugar())
 # s.showMiners()
-# print (s.players[0].scan(s.surface))
+print(s.players[0].scan(s.surface))
 
 # rand.distrotable()
